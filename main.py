@@ -167,7 +167,7 @@ if __name__ == '__main__':
         img_time = TimePassed(filename)
         img_num = img_num + 1
 
-        while max(img.shape[0], img.shape[1]) > 1200:
+        while max(img.shape[0], img.shape[1]) > 500:
             img = cv2.resize(img, (0, 0), fx=0.8, fy=0.8)
 
         img = process_colors(img, filename)
