@@ -1,11 +1,9 @@
-from cmath import inf
-from re import M
 import numpy as np
 import math
 
 
 class Moments:
-    def __init__(self, image: np.ndarray, image_edged: np.ndarray):
+    def __init__(self, image, image_edged):
         self.image = image
         self.image_edged = image_edged
         self.m00 = self.calculate_moment(0, 0)
@@ -75,14 +73,14 @@ class Moments:
 
         self.height, self.width = image.shape
 
-    def calculate_moment(self, p: int, q: int):
+    def calculate_moment(self, x, y):
         m = 0
-        h, w = self.image.shape
+        height, width = self.image.shape
 
-        for j in range(0, w - 1):
-            for i in range(0, h - 1):
-                binary_val = 0 if self.image[i, j] > 128 else 1
-                m += (i ** p) * (j ** q) * binary_val
+        for i in range(0, width - 1):
+            for j in range(0, height - 1):
+                val = 0 if self.image[j, i] > 128 else 1
+                m += (j ** x) * (i ** y) * val
 
         return m if m > 0 else 1
 
@@ -96,10 +94,10 @@ class Moments:
 
     def calculate_W4(self):
         distances_sum = 0
-        h, w = self.image.shape
+        height, width = self.image.shape
 
-        for j in range(0, w - 1):
-            for i in range(0, h - 1):
+        for j in range(0, width - 1):
+            for i in range(0, height - 1):
                 distances_sum += self.distance_to_point([i, j]) ** 2
 
         return self.area / math.sqrt(2 * math.pi * distances_sum)

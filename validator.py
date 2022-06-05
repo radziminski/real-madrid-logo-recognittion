@@ -1,4 +1,3 @@
-
 from cmath import inf
 from moments import Moments
 
@@ -6,24 +5,6 @@ from moments import Moments
 class Validator:
     def __init__(self, intervals: dict):
         self.intervals = intervals
-
-        # self.M1_interval = self.set_interval(intervals, 'M1')
-        # self.M2_interval = self.set_interval(intervals, 'M2')
-        # self.M3_interval = self.set_interval(intervals, 'M3')
-        # self.M4_interval = self.set_interval(intervals, 'M4')
-        # self.M5_interval = self.set_interval(intervals, 'M5')
-        # self.M6_interval = self.set_interval(intervals, 'M6')
-        # self.M7_interval = self.set_interval(intervals, 'M7')
-        # self.M8_interval = self.set_interval(intervals, 'M8')
-        # self.M9_interval = self.set_interval(intervals, 'M9')
-
-        # self.W1_interval = self.set_interval(intervals, 'W1')
-        # self.W2_interval = self.set_interval(intervals, 'W2')
-        # self.W3_interval = self.set_interval(intervals, 'W3')
-        # self.W4_interval = self.set_interval(intervals, 'W4')
-        # self.W9_interval = self.set_interval(intervals, 'W9')
-
-        # self.pa_interval = self.set_interval(intervals, 'pa')
 
     def set_interval(self, intervals, name):
         if intervals[name]:
@@ -38,7 +19,7 @@ class Validator:
             curr_moment = moments_dict[key]
             low, high = self.intervals[key]
             if curr_moment < low or curr_moment > high:
-                print(f'{key} is not valid! {curr_moment} not in {low} - {high}')
+                # print(f'{key} is not valid! {curr_moment} not in {low} - {high}')
                 return False
 
         return True
@@ -92,7 +73,7 @@ emblem_intervals_v1 = {
     'M6': (-0.01, 0.0031),
     'M7': (-0.13, 0.16),
     'M8': (-0.0003, 0.00035),
-    'M9': (-inf, inf),
+    'M9': (-0.00002, inf),
     'W1': (10, 300),
     'W2': (70, 5000),
     'W3': (2, 20),
