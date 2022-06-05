@@ -1,57 +1,57 @@
 class Boundaries:
-    def __init__(self, min_width=1000, min_height=1000, max_width=0, max_height=0):
-        self.min_width = min_width
+    def __init__(self, min_height=1000, min_width=1000, max_height=0, max_width=0):
         self.min_height = min_height
-        self.max_width = max_width
+        self.min_width = min_width
         self.max_height = max_height
+        self.max_width = max_width
         self.seen_pixels = []
 
     def getArea(self):
-        width = self.max_width - self.min_width
         height = self.max_height - self.min_height
-        return width * height
+        width = self.max_width - self.min_width
+        return height * width
 
     def getRatio(self):
-        width = self.max_width - self.min_width
         height = self.max_height - self.min_height
-        if width == 0:
+        width = self.max_width - self.min_width
+        if height == 0:
             return 10000
-        return height / width
-
-    def get_width(self):
-        return self.max_width - self.min_width
+        return width / height
 
     def get_height(self):
         return self.max_height - self.min_height
 
+    def get_width(self):
+        return self.max_width - self.min_width
+
     def get_dimensions(self):
-        return self.max_width - self.min_width, self.max_height - self.min_height
+        return self.max_height - self.min_height, self.max_width - self.min_width
 
     def check_pixel(self, pixel):
-        width, height = pixel
-        self.max_width = max(self.max_width, width)
-        self.min_width = min(self.min_width, width)
+        height, width = pixel
         self.max_height = max(self.max_height, height)
         self.min_height = min(self.min_height, height)
+        self.max_width = max(self.max_width, width)
+        self.min_width = min(self.min_width, width)
 
     def compare(self, compare_boundaries):
-        return (self.min_width == compare_boundaries.min_width) and (self.min_height == compare_boundaries.min_height) \
-            and (self.max_width == compare_boundaries.max_width) and (self.max_height == compare_boundaries.max_height)
+        return (self.min_height == compare_boundaries.min_height) and (self.min_width == compare_boundaries.min_width) \
+            and (self.max_height == compare_boundaries.max_height) and (self.max_width == compare_boundaries.max_width)
 
     def apply_to_image(self, image):
-        return image[self.min_width:self.max_width, self.min_height:self.max_height]
+        return image[self.min_height:self.max_height, self.min_width:self.max_width]
 
 
 MERGE_THRESHOLD = -6
 
 
 def merge_boundaries(rect1: Boundaries, rect2: Boundaries):
-    min_width = min(rect1.min_width, rect2.min_width)
     min_height = min(rect1.min_height, rect2.min_height)
-    max_width = max(rect1.max_width, rect2.max_width)
+    min_width = min(rect1.min_width, rect2.min_width)
     max_height = max(rect1.max_height, rect2.max_height)
+    max_width = max(rect1.max_width, rect2.max_width)
 
-    return Boundaries(min_width, min_height, max_width, max_height)
+    return Boundaries(min_height, min_width, max_height, max_width)
 
 
 def do_overlap_in_1d(xmin1, xmin2, xmax1, xmax2):
@@ -59,9 +59,9 @@ def do_overlap_in_1d(xmin1, xmin2, xmax1, xmax2):
 
 
 def do_overlap(rect1: Boundaries, rect2: Boundaries):
-    return do_overlap_in_1d(rect1.min_width, rect2.min_width, rect1.max_width, rect2.max_width) and \
-        do_overlap_in_1d(rect1.min_height, rect2.min_height,
-                         rect1.max_height, rect2.max_height)
+    return do_overlap_in_1d(rect1.min_height, rect2.min_height, rect1.max_height, rect2.max_height) and \
+        do_overlap_in_1d(rect1.min_width, rect2.min_width,
+                         rect1.max_width, rect2.max_width)
 
 
 def check_has_valid_ratio(boundaries: Boundaries):

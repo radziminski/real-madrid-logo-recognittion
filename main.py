@@ -47,8 +47,8 @@ def detect_real_madrid_logo(input_img, filename, colors=colors_set_1):
 
         # Splitting into crown and emblem regions
 
-        image_region_height, _ = image_region.shape
-        crown_limit = int(image_region_height / 3)
+        image_region_width, _ = image_region.shape
+        crown_limit = int(image_region_width / 3)
         crown_region = image_region[0:crown_limit, :]
         emblem_region = image_region[crown_limit:, :]
         crown_region_edge = image_region_edged[0:crown_limit, :]
@@ -60,8 +60,8 @@ def detect_real_madrid_logo(input_img, filename, colors=colors_set_1):
         emblem_moments.save_file(f'params/{filename}-{color_name}-emblem.txt')
 
         # # Marking potential region
-        # start_point = (boundaries.min_width - 2, boundaries.min_height - 2)
-        # end_point = (boundaries.max_width + 2, boundaries.max_height + 2)
+        # start_point = (boundaries.min_height - 2, boundaries.min_width - 2)
+        # end_point = (boundaries.max_height + 2, boundaries.max_width + 2)
         # input_img = draw_rectangle(
         #     input_img, start_point, end_point, color, 1)
 
@@ -70,9 +70,9 @@ def detect_real_madrid_logo(input_img, filename, colors=colors_set_1):
 
         # Marking valid logo
         if is_crown_valid and is_emblem_valid:
-            start_point = (boundaries.min_width - 5,
-                           boundaries.min_height - 5)
-            end_point = (boundaries.max_width + 3, boundaries.max_height + 3)
+            start_point = (boundaries.min_height - 5,
+                           boundaries.min_width - 5)
+            end_point = (boundaries.max_height + 3, boundaries.max_width + 3)
             input_img = draw_rectangle(
                 input_img, start_point, end_point, (0, 0, 255), 3)
 

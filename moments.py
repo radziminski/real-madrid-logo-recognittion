@@ -71,14 +71,14 @@ class Moments:
         self.W4 = self.calculate_W4()
         self.W9 = self.calculate_W9()
 
-        self.height, self.width = image.shape
+        self.width, self.height = image.shape
 
     def calculate_moment(self, x, y):
         m = 0
-        height, width = self.image.shape
+        width, height = self.image.shape
 
-        for i in range(0, width - 1):
-            for j in range(0, height - 1):
+        for i in range(0, height - 1):
+            for j in range(0, width - 1):
                 val = 0 if self.image[j, i] > 128 else 1
                 m += (j ** x) * (i ** y) * val
 
@@ -94,10 +94,10 @@ class Moments:
 
     def calculate_W4(self):
         distances_sum = 0
-        height, width = self.image.shape
+        width, height = self.image.shape
 
-        for j in range(0, width - 1):
-            for i in range(0, height - 1):
+        for j in range(0, height - 1):
+            for i in range(0, width - 1):
                 distances_sum += self.distance_to_point([i, j]) ** 2
 
         return self.area / math.sqrt(2 * math.pi * distances_sum)

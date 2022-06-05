@@ -7,13 +7,13 @@ from constants import neighbors
 
 def find_valid_pixels(input_img):
     img = input_img.copy()
-    width, height = img.shape
+    height, width = img.shape
 
     valid_pixels = {}
     region_id = 0
 
-    for i in range(width - 1):
-        for j in range(height - 1):
+    for i in range(height - 1):
+        for j in range(width - 1):
             if img[i, j] == 0:
                 continue
 
@@ -51,7 +51,7 @@ def find_valid_pixels(input_img):
 
 
 def find_regions(input_img):
-    width, height = input_img.shape
+    height, width = input_img.shape
 
     time = TimePassed('Regions separation')
 
@@ -59,13 +59,13 @@ def find_regions(input_img):
 
     inv_valid_pixels = {v: k for k, v in valid_pixels.items()}
     found_regions = []
-    minimal_area = 0.001 * width * height
+    minimal_area = 0.001 * height * width
 
     for region in range(regions_num):
         if not region in inv_valid_pixels:
             continue
 
-        boundaries = Boundaries(width, height)
+        boundaries = Boundaries(height, width)
 
         for pixel in valid_pixels:
             if (valid_pixels[pixel] != region):

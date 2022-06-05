@@ -7,13 +7,13 @@ from time_passed import TimePassed
 
 def edge_detection(input_img):
     img = input_img.copy()
-    width, height = img.shape
+    height, width = img.shape
     kernel = get_star_kernel(5)
 
     time = TimePassed('Edge detection')
 
-    for i in range(2, width - 3):
-        for j in range(2, height - 3):
+    for i in range(2, height - 3):
+        for j in range(2, width - 3):
             if np.sum(get_sub_image(input_img, (i, j), 5) * kernel) == (255 * np.sum(kernel)):
                 img[i, j] = 0
 

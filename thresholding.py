@@ -13,47 +13,47 @@ class ThresholdingParams:
 
 colors_set_1 = ThresholdingParams(50, 40, 11, 27)
 colors_set_2 = ThresholdingParams(
-    50, 180, 14, 27)  # best for sklep 1 i zawodnicy
+    50, 175, 14, 27)  # best for sklep 1 i zawodnicy
 colors_set_3 = ThresholdingParams(160, 170, 14, 24)  # bst for sklep 4
 colors_set_4 = ThresholdingParams(
     50, 210, 10, 20)  # bst for sklep 3 and sklep2
 
 
-def BGR_to_HSV(input_img):
-    width, height, _ = input_img.shape
-    output = np.zeros(input_img.shape, dtype=int)
+def BGR_to_HSV(input_img: np.array):
+    height, width, _ = input_img.shape
+    output = np.zeros(input_img.shape)
 
-    for i in range(width):
-        for j in range(height):
-            pixel = input_img[i, j]
+    max_val = 255
+    for i in range(height):
+        for j in range(width):
+            blue = input_img[i, j][0] / max_val
+            green = input_img[i, j][1] / max_val
+            red = input_img[i, j][2] / max_val
 
-            hsv = np.zeros(3, dtype=int)
+            max_color = max(red, green, blue)
+            min_color = min(red, green, blue)
+            diff = max_color - min_color
 
-            bgr_min = np.min(pixel)
-            bgr_max = np.max(pixel)
-            diff = (bgr_max - bgr_min)
+            v = max_color
+            multiplier = 60
 
-            hsv[2] = bgr_max
-            if bgr_max == 0:
-                output[i, j] = hsv
-                continue
+            if diff == 0:
+                h = 0
+            elif max_color == red:
+                h = (((green - blue) / diff) % 6) * multiplier
+            elif max_color == green:
+                h = (((blue - red) / diff) + 2) * multiplier
+            elif max_color == blue:
+                h = (((red - green) / diff) + 4) * multiplier
 
-            hsv[1] = 255 * diff / hsv[2]
-            if hsv[1] == 0:
-                output[i, j] = hsv
-                continue
-
-            multiplier = 43
-            if bgr_max == pixel[2]:
-                hsv[0] = 0 + multiplier * (int(pixel[1]) -
-                                           int(pixel[0])) / diff
-            elif bgr_max == pixel[1]:
-                hsv[0] = 85 + multiplier * (int(pixel[0]) -
-                                            int(pixel[2])) / diff
+            if max_color == 0:
+                s = 0
             else:
-                hsv[0] = 171 + multiplier * (int(pixel[2]) -
-                                             int(pixel[1])) / diff
-            output[i, j] = hsv
+                s = diff / max_color
+
+            colors = [int(h / 2), int(s * max_val), int(v * max_val)]
+
+            output[i, j] = np.array(colors)
 
     return output
 
