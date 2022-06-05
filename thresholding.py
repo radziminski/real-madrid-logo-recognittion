@@ -14,7 +14,7 @@ class ThresholdingParams:
 colors_set_1 = ThresholdingParams(50, 40, 11, 27)
 colors_set_2 = ThresholdingParams(
     50, 175, 14, 27)  # best for sklep 1 i zawodnicy
-colors_set_3 = ThresholdingParams(160, 170, 14, 24)  # best for sklep 4
+colors_set_3 = ThresholdingParams(165, 170, 14, 24)  # best for sklep 4
 colors_set_4 = ThresholdingParams(
     50, 210, 10, 20)  # best for sklep3 and sklep2
 
