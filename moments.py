@@ -135,7 +135,7 @@ class Moments:
     def format_value(self, val):
         return '{0:.10f}'.format(val)
 
-    def save_file(self, file_name: str):
+    def save_file(self, file_name):
         file = open(file_name, 'w')
         params_map = {
             'M1': self.M1,

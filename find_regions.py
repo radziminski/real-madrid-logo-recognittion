@@ -2,7 +2,9 @@ import numpy as np
 
 from time_passed import TimePassed
 from boundaries import Boundaries, merge_overlapping_boundaries
-from constants import neighbors
+
+neighbors = np.array(
+    [(-1, -1), (0, -1), (1, -1), (1, 0), (-1, 1), (0, 1), (1, 1)])
 
 
 def find_valid_pixels(input_img):
