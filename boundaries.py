@@ -42,7 +42,7 @@ class Boundaries:
         return image[self.min_width:self.max_width, self.min_height:self.max_height]
 
 
-merge_threshold = -3
+MERGE_THRESHOLD = -6
 
 
 def merge_boundaries(rect1: Boundaries, rect2: Boundaries):
@@ -54,14 +54,14 @@ def merge_boundaries(rect1: Boundaries, rect2: Boundaries):
     return Boundaries(min_width, min_height, max_width, max_height)
 
 
-def isOverlapping1D(xmin1, xmin2, xmax1, xmax2):
-    return ((xmax1 - xmin2) >= merge_threshold) and ((xmax2 - xmin1) >= merge_threshold)
+def do_overlap_in_1d(xmin1, xmin2, xmax1, xmax2):
+    return ((xmax1 - xmin2) >= MERGE_THRESHOLD) and ((xmax2 - xmin1) >= MERGE_THRESHOLD)
 
 
 def do_overlap(rect1: Boundaries, rect2: Boundaries):
-    return isOverlapping1D(rect1.min_width, rect2.min_width, rect1.max_width, rect2.max_width) and \
-        isOverlapping1D(rect1.min_height, rect2.min_height,
-                        rect1.max_height, rect2.max_height)
+    return do_overlap_in_1d(rect1.min_width, rect2.min_width, rect1.max_width, rect2.max_width) and \
+        do_overlap_in_1d(rect1.min_height, rect2.min_height,
+                         rect1.max_height, rect2.max_height)
 
 
 def check_has_valid_ratio(boundaries: Boundaries):

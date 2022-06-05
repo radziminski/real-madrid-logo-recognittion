@@ -1,19 +1,14 @@
-def pixels_iterate(image, callback):
-    for line in image:
-        for pixel in line:
-            callback(pixel)
+import numpy as np
 
 
-def normalize_value(pixel):
-    if pixel > 255:
-        return 255
-
-    if pixel < 0:
-        return 0
-
-    return pixel
-
-
-def to_grayscale(pixel):
-    new_value = (int(pixel[0]) + int(pixel[1]) + int(pixel[2])) / 3
-    return normalize_value(new_value)
+def get_sub_image(image: np.ndarray, center: tuple, size=3):
+    assert size % 2 == 1
+    x, y = center
+    half_size = int(size / 2)
+    assert half_size <= x
+    assert half_size <= y
+    start_x = x - half_size
+    start_y = y - half_size
+    end_x = x + half_size + 1
+    end_y = y + half_size + 1
+    return image[start_x:end_x, start_y:end_y]

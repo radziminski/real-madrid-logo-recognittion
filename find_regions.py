@@ -1,21 +1,20 @@
 import numpy as np
-import time
 
+from time_passed import TimePassed
 from boundaries import Boundaries, merge_overlapping_boundaries
 from constants import neighbors
 
 
-def find_regions(input_img):
+def find_valid_pixels(input_img):
     img = input_img.copy()
-    width, height, colors = img.shape
-    seg_start_time = time.time()
+    width, height = img.shape
 
     valid_pixels = {}
     region_id = 0
 
     for i in range(width - 1):
         for j in range(height - 1):
-            if np.sum(img[i, j]) == 0:
+            if img[i, j] == 0:
                 continue
 
             index = f'{i}_{j}'
@@ -28,7 +27,7 @@ def find_regions(input_img):
                 curr_region = valid_pixels[index]
 
             for neighbor in neighbors:
-                if np.sum(img[i + neighbor[0], j + neighbor[1]]) == 0:
+                if img[i + neighbor[0], j + neighbor[1]] == 0:
                     continue
 
                 neighbor_index = f'{i + neighbor[0]}_{j + neighbor[1]}'
@@ -48,11 +47,21 @@ def find_regions(input_img):
 
                 valid_pixels[neighbor_index] = curr_region
 
+    return valid_pixels, region_id
+
+
+def find_regions(input_img):
+    width, height = input_img.shape
+
+    time = TimePassed('Regions separation')
+
+    valid_pixels, regions_num = find_valid_pixels(input_img)
+
     inv_valid_pixels = {v: k for k, v in valid_pixels.items()}
     found_regions = []
     minimal_area = 0.002 * width * height
 
-    for region in range(region_id):
+    for region in range(regions_num):
         if not region in inv_valid_pixels:
             continue
 
@@ -67,13 +76,13 @@ def find_regions(input_img):
             boundaries.check_pixel((i, j))
 
         ratio = boundaries.getRatio()
-        has_valid_ratio = ratio <= 2 and ratio > 0.2
+        has_valid_ratio = ratio <= 3 and ratio > 0.2
+
         if (boundaries.getArea() > minimal_area and has_valid_ratio):
             found_regions.append(boundaries)
 
     results = merge_overlapping_boundaries(found_regions)
 
-    print("--- Region separation completed in %s seconds ---" %
-          (time.time() - seg_start_time))
+    time.finish()
 
     return results
