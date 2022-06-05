@@ -59,7 +59,7 @@ def find_regions(input_img):
 
     inv_valid_pixels = {v: k for k, v in valid_pixels.items()}
     found_regions = []
-    minimal_area = 0.002 * width * height
+    minimal_area = 0.001 * width * height
 
     for region in range(regions_num):
         if not region in inv_valid_pixels:

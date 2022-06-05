@@ -12,9 +12,14 @@ class ThresholdingParams:
 
 
 colors_set_1 = ThresholdingParams(50, 40, 11, 27)
+colors_set_2 = ThresholdingParams(
+    50, 175, 14, 27)  # best for sklep 1 and zawodnicy
+colors_set_3 = ThresholdingParams(160, 170, 14, 24)  # best for sklep 4
+colors_set_4 = ThresholdingParams(
+    50, 210, 10, 20)  # best for sklep 3 and sklep2
 
 
-def thresholding(input_img, params: ThresholdingParams = colors_set_1):
+def thresholding(input_img, params: ThresholdingParams = colors_set_4):
     sat_limit = params.sat_limit
     val_limit = params.val_limit
     hue_low_limit = params.hue_low_limit
